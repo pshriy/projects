@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<!-- saved from url=(0037)file:///C:/Users/SRISHANTH/newtc.html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TEMPERATURE CONVERTER</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url(https://media.licdn.com/dms/image/D5612AQE0c_2eZ6K1ww/article-cover_image-shrink_720_1280/0/1709117344221?e=2147483647&v=beta&t=lULhDYt24MlD9SgLeA9b9_ACcRTeTDI7d3DZUj04gxs);
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .converter {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            text-align: center;
+        }
+        .converter h2 {
+            margin-bottom: 20px;
+        }
+        .converter label {
+            display: block;
+            margin-top: 10px;
+        }
+        .converter select,
+        .converter input[type="number"],
+        .converter input[type="text"],
+        .converter button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid lightblue;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        .converter button {
+            background-color: lightskyblue;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        .converter button:hover {
+            background-color: deepskyblue;
+        }
+        .converter input[type="text"] {
+            background-color: whitesmoke;
+        }
+    </style>
+</head>
+<body>
+    <div class="converter">
+        <h2>Temperature Converter</h2>
+        <label for="fromUnit">From:</label>
+        <select id="fromUnit">
+            <option value="C">Celsius</option>
+            <option value="F">Fahrenheit</option>
+            <option value="K">Kelvin</option>
+            <option value="R">Rankine</option>
+        </select>
+        <label for="toUnit">To:</label>
+        <select id="toUnit">
+            <option value="C">Celsius</option>
+            <option value="F">Fahrenheit</option>
+            <option value="K">Kelvin</option>
+            <option value="R">Rankine</option>
+        </select>
+        <label for="temperature">Temperature</label>
+        <input type="number" id="temperature" placeholder="Enter Temperature">
+        <button onclick="convert()">Convert</button>
+        <label for="result">Result</label>
+        <input type="text" id="result" readonly="">
+    </div>
+
+    <script>
+        function convert() {
+            var fromUnit = document.getElementById('fromUnit').value;
+            var toUnit = document.getElementById('toUnit').value;
+            var temperature = parseFloat(document.getElementById('temperature').value);
+            var convertedValue;
+            var resultUnit;
+
+            if (isNaN(temperature)) {
+                alert("Please enter a valid temperature");
+                return;
+            }
+
+            switch (fromUnit) {
+                case 'C':
+                    if (toUnit === 'F') {
+                        convertedValue = (temperature * 9/5) + 32;
+                        resultUnit = 'F';
+                    } else if (toUnit === 'K') {
+                        convertedValue = temperature + 273.15;
+                        resultUnit = 'K';
+                    } else if (toUnit === 'R') {
+                        convertedValue = (temperature + 273.15) * 9/5;
+                        resultUnit = 'R';
+                    } else {
+                        convertedValue = temperature;
+                        resultUnit = 'C';
+                    }
+                    break;
+                case 'F':
+                    if (toUnit === 'C') {
+                        convertedValue = (temperature - 32) * 5/9;
+                        resultUnit = 'C';
+                    } else if (toUnit === 'K') {
+                        convertedValue = (temperature - 32) * 5/9 + 273.15;
+                        resultUnit = 'K';
+                    } else if (toUnit === 'R') {
+                        convertedValue = temperature + 459.67;
+                        resultUnit = 'R';
+                    } else {
+                        convertedValue = temperature;
+                        resultUnit = 'F';
+                    }
+                    break;
+                case 'K':
+                    if (toUnit === 'C') {
+                        convertedValue = temperature - 273.15;
+                        resultUnit = 'C';
+                    } else if (toUnit === 'F') {
+                        convertedValue = (temperature - 273.15) * 9/5 + 32;
+                        resultUnit = 'F';
+                    } else if (toUnit === 'R') {
+                        convertedValue = temperature * 9/5;
+                        resultUnit = 'R';
+                    } else {
+                        convertedValue = temperature;
+                        resultUnit = 'K';
+                    }
+                    break;
+                case 'R':
+                    if (toUnit === 'C') {
+                        convertedValue = (temperature - 491.67) * 5/9;
+                        resultUnit = 'C';
+                    } else if (toUnit === 'F') {
+                        convertedValue = temperature - 459.67;
+                        resultUnit = 'F';
+                    } else if (toUnit === 'K') {
+                        convertedValue = temperature * 5/9;
+                        resultUnit = 'K';
+                    } else {
+                        convertedValue = temperature;
+                        resultUnit = 'R';
+                    }
+                    break;
+            }
+            document.getElementById('result').value = convertedValue.toFixed(2) + ' ' + resultUnit;
+        }
+    </script>
+
+
+</body></html>
