@@ -1,0 +1,63 @@
+import tkinter as tk 
+from tkinter import ttk, messagebox 
+import speech_recognition as sr 
+import pyttsx3 
+class PronunciationChecker: 
+def _init_(self, root): 
+self.root = root 
+self.root.title("Pronunciation Checker") 
+self.label = ttk.Label(root, text="Enter a word:") 
+self.label.pack(pady=10) 
+self.entry = ttk.Entry(root, width=30) 
+self.entry.pack(pady=10) 
+self.check_button = ttk.Button(root, text="Check Pronunciation", 
+command=self.check_pronunciation) 
+self.check_button.pack(pady=10) 
+def check_pronunciation(self): 
+target_word = self.entry.get().lower() 
+if not target_word: 
+messagebox.showwarning("Warning", "Please enter a word.") 
+return 
+spoken_text = self.listen() 
+42 
+if spoken_text.lower() == target_word: 
+result = "Correct pronunciation!" 
+else: 
+corrected_word = self.correct_word(target_word) 
+result = f"Incorrect pronunciation! You said: {spoken_text}. Did you mean: 
+{corrected_word}?" 
+self.speak(result) 
+messagebox.showinfo("Result", result) 
+def listen(self): 
+recognizer = sr.Recognizer() 
+with sr.Microphone() as source: 
+print("Speak now...") 
+recognizer.adjust_for_ambient_noise(source) 
+audio = recognizer.listen(source) 
+try: 
+print("Recognizing...") 
+spoken_text = recognizer.recognize_google(audio) 
+print("You said:", spoken_text) 
+return spoken_text 
+except sr.UnknownValueError: 
+print("Unable to recognize speech") 
+return "" 
+except sr.RequestError as e: 
+print("Speech recognition request error:", str(e)) 
+return "" 
+def correct_word(self, mispronounced_word): 
+# Simple dictionary for demonstration purposes 
+pronunciation_dict = { 
+"helo": "hello", 
+"wold": "world", 
+# Add more entries as needed 
+} 
+return pronunciation_dict.get(mispronounced_word, mispronounced_word) 
+def speak(self, text): 
+engine = pyttsx3.init() 
+engine.say(text) 
+engine.runAndWait() 
+if _name_ == "_main_": 
+root = tk.Tk() 
+app = PronunciationChecker(root) 
+root.mainloop()
