@@ -1,0 +1,23 @@
+JUPYTER NOTEBOOK
+import os
+import cv2
+from pathlib import Path
+import os.path
+file = 'fog2.jpg'
+train_dir = f'C:/Users/Harsha/rainfall_test_samples/{file}'
+img = cv2.imread(train_dir)
+lab = cv2.cvtColor(img, cv2.COLOR_BGR2LAB)
+cv2.imshow('filteration 1', lab)
+l, a, b = cv2.split(lab)
+cv2.imshow('filteration 2', l)
+cv2.imshow('filteration 3', a)
+cv2.imshow('filteration', b)
+clahe = cv2.createCLAHE(clipLimit=9.0, tileGridSize=(8, 8))
+cl = clahe.apply(l)
+cv2.imshow('filteration 5', cl)
+limg = cv2.merge((cl, a, b))
+cv2.imshow('filteration 6', limg)
+final = cv2.cvtColor(limg, cv2.COLOR_LAB2BGR)
+cv2.imwrite(f'C:/Users/Harsha/rainfall_test_samples/output{file}', final)
+cv2.imshow('Final Output', final)
+cv2.waitKey()
